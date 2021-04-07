@@ -1,0 +1,302 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,300;1,300&display=swap');
+
+/* Customize some of the variables */
+:root {
+  --pale-background-color: #EDF6F9;
+  --sidebar-width: 11rem; /* Shrink sidebar width  */
+  --sidebar-background-color: var(--pale-background-color); /* Sidebar color*/
+  --sidebar-horizontal-padding: 0.01in; /* Reduce sidebar padding */
+  --decorator-outer-dim: 10px; /* Make position delineating circles larger */
+  --decorator-border: 2px solid #ACD7D4; /* Timeline line color*/
+}
+
+/* Main text is Sen*/
+body {
+  font-family: "Sen", sans-serif;
+  font-weight: 300;
+  line-height: 1.3;
+  color: #444;
+}
+
+strong {
+  font-weight:500;
+}
+
+img {
+  border-radius: 50%;
+  margin: 0 auto;
+  display: block;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1pt #83C5BE solid;
+}
+
+[data-id="main"] {
+    padding-left: 1rem;
+    padding-right: 2.4rem;
+}
+
+/* Give headers Zilla Slab font */
+
+.header-block{
+  background-color: var(--pale-background-color);
+  /*border-bottom: 1pt #dedede solid;*/
+  width: var(--pagedjs-width);
+  height: 150px;
+  margin-top: calc(-1*var(--pagedjs-margin-top));
+  margin-left: -19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-block-inner {
+  /*background-color: var(--pale-background-color);*/
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  /*justify-content: center;*/
+  /* border-top: 1px solid #add8e65e; */
+}
+
+div.title {
+    font-family: "Zilla Slab", serif;
+    text-align: center;
+    padding: 3rem;
+    font-size: 3.5rem!important;
+    line-height: 1;
+    display: block!important;
+    color: #006D77;
+    max-width: 80%;
+}
+
+.item {
+  text-transform: uppercase;
+  display: block;
+}
+
+h1,
+h2 {
+  font-family: "Zilla Slab", serif;
+  color: #000;
+}
+
+h1{
+  text-transform: none;
+  color: silver;
+  font-weight: normal;
+  display: none;
+}
+
+h2 {
+  letter-spacing: 1pt;
+}
+.aside h2,
+#aside h2 {
+ color: #83C5BE; 
+}
+
+h3 {
+  font-family: "Sen", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1pt;
+  font-weight: 500;
+}
+
+/* When in PDF export mode make sure superscripts are nice and small and italic */
+sup {
+  font-size: 0.45rem;
+  font-style: italic;
+}
+
+/* Avoid the breaking within a section */
+.blocks {
+  break-inside: avoid;
+}
+
+* {
+  /* Override default right margin for sidebar*/
+  --pagedjs-margin-right: 0.2in;
+  --pagedjs-margin-left: 0.2in;
+}
+
+/* sidebar left border */
+
+.pagedjs_sheet::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 0;
+    left: 14.5rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    /*background-color: #f0f7fa;*/
+    height: 100%;
+}
+
+.pagedjs_sheet::after,
+.pagedjs_first_page .pagedjs_sheet::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    width: 14rem;
+    /*background-color: #f0f7fa;*/
+}
+
+.pagedjs_first_page .pagedjs_sheet::after {
+  height: 75.9%;
+  top: 248.1px;
+}
+
+.pagedjs_sheet::after {
+  height: 98.7%;
+  top: 7px;
+}
+
+
+a {
+  color: #e43b07;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.section.level1.aside {
+  height: 74.9%;
+  padding-top: 1.6rem;
+}
+
+
+[data-id="skills"] {
+    line-height: 1.2;
+}
+
+[data-id="disclaimer"] {
+  position: static;
+  text-align: left;
+  opacity: 90%;
+}
+
+
+.aside {
+    width: var(--sidebar-width);
+    padding: 0.9in 5px 0.9px 10px;
+    font-size: 0.8rem;
+    float: right;
+    position: absolute;
+    /*left: 0;*/
+}
+
+[data-id="subtitle"] {
+    width: var(--main-width);
+    padding: 0 0.25in 0 0.25in;
+    font-size: 0.8rem;
+    float: left;
+}
+
+[data-id="main"] {
+    width: var(--main-width);
+    padding: 0 0.25in 0 0.25in;
+    font-size: 0.7rem;
+    float: left;
+}
+
+#aside,
+.aside {
+  z-index: 3;
+  color: #004346;
+}
+
+#aside a,
+#aside p, 
+#aside ul li{
+  color: #004346;
+}
+
+.details .place {
+  margin-top: 0.25rem;
+}
+
+.main-block:not(.concise) .details div {
+  padding-top: 0.005rem;
+}
+
+/* Laptop icon isn't centered by default which is lame */
+.fa-laptop {
+  margin-left: -3px;
+}
+
+/* When we have links at bottom in a list make sure they actually are numbered */
+#links li {
+  list-style-type: decimal;
+}
+
+/* Dont put the little fake list point in front of links */
+.aside li::before {
+  display: none;
+}
+
+/* Move closer to start and up towards header */
+.aside ul {
+  padding-left: 0rem;
+}
+
+.aside li::before {
+  position: relative;
+  margin-left: -4.25pt;
+  content: "• ";
+}
+
+/* Make sure elements in aside are centered and have a nice small text */
+.aside {
+  width: calc(var(--sidebar-width) + 9px);
+  line-height: 1.2;
+  font-size: 0.75rem;
+}
+
+/* Make little circle outline */
+.decorator::after {
+  background-color: #83C5BE;
+  
+}
+
+/* Remove the fake bullets from lists */
+.aside li::before {
+  content: auto;
+}
+
+.skill-bar {
+  color: white;
+  padding: 0.1rem 0.25rem;
+  margin-top: 3px;
+  position: relative;
+  width: 100%;
+}
+
+
+/* When the class no-timeline is added we remove the after psuedo element from the header... */
+
+/* Removes the psuedo element on h2 tags for this section */
+.section.no-timeline h2::after {
+  content: none;
+}
+
+/* Without adding padding the content is all up on the title */
+.section.no-timeline h2 {
+  padding-bottom: 1rem;
+}
+
+/* Add styles for little cards  */
+.info-card{
+  width: 220px;    
+  float: left;    
+  padding: 0.5rem;
+  margin: 0.5rem;
+  box-shadow: 1px 1px 4px black;
+}

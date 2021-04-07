@@ -1,0 +1,257 @@
+---
+title: "Curriculum Vitae"
+author: Alison Presmanes Hill
+date: "`r Sys.Date()`"
+output:
+  pagedown::html_resume:
+    css: ['css/styles.css', 'resume']
+    # set it to true for a self-contained HTML page but it'll take longer to render
+    self_contained: true
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  results='asis', 
+  echo = FALSE
+)
+
+library(glue)
+library(tidyverse)
+
+# ======================================================================
+# These variables determine how the the data is loaded and how the exports are
+# done.
+
+# Is data stored in google sheets? If no data will be gather from the csvs/
+# folder in project
+using_googlesheets <- TRUE
+
+# Just the copied URL from the sheet
+positions_sheet_loc <- "https://docs.google.com/spreadsheets/d/11owj8kHEnOpShQZNpNzrZRzQAvdhRv_NkVy46J1u2bQ/edit?usp=sharing"
+
+# Is this sheet available for anyone to read? If you're using a private sheet
+# set this to false and go to gather_data.R and run the data loading manually
+# once to cache authentication
+sheet_is_publicly_readable <- TRUE
+
+# Is the goal of this knit to build a document that is exported to PDF? If so
+# set this to true to have links turned into footnotes at the end of the
+# document
+PDF_EXPORT <- FALSE
+
+
+CV_PDF_LOC <- "github.com/dcossyleon/cv/raw/master/cv.pdf"
+CV_HTML_LOC <- "dcossyleon.github.io/cv/"
+
+
+# A global (gasp) variable that holds all the links that were inserted for
+# placement at the end
+links <- c()
+
+# ======================================================================
+# Now we source two external scripts. One contains functions for building the
+# text output and the other loads up our data from either googlesheets or csvs
+
+# Functions for building sections from CSV data
+source('parsing_functions.R') 
+
+# Load data for CV/Resume
+source('gather_data.R')
+```
+
+```{r}
+# When in export mode the little dots are unaligned, so fix that. 
+if(PDF_EXPORT){
+  cat("
+  <style>
+  :root{
+    --decorator-outer-offset-left: -6.5px;
+  }
+  </style>")
+}
+```
+
+::: {.header-block}
+::: {.header-block-inner}
+::: {.title}
+`r rmarkdown::metadata$author`
+:::
+:::
+:::
+
+::: {#subtitle .subtitle}
+```{r intro}
+  print_text_block(text_blocks, 'intro')
+```
+:::
+
+# Aside
+
+![logo](logo.jpg){width="90%"}
+
+```{r}
+# When in export mode the little dots are unaligned, so fix that. 
+if(PDF_EXPORT){
+  glue("View this CV online with links at _{CV_HTML_LOC}_")
+} else {
+  glue("[<i class='fas fa-download'></i> Download CV as a PDF]({CV_PDF_LOC})")
+}
+```
+
+## Contact {#contact}
+
+```{r}
+contact_info %>% 
+  glue_data("- <i class='fa fa-{icon}'></i> {contact}")
+```
+
+## Skills {#skills}
+
+<i class="fab fa-r-project"></i>
+
+R Markdown
+
+Statistics & Machine Learning
+
+<!--i class="fab fa-html5"></i-->
+
+HTML/CSS
+
+<!--i class="fas fa-code-branch"></i-->
+
+Git
+
+## Disclaimer {#disclaimer}
+
+Source code available: [github.com/apreshill/cv](https://github.com/apreshill/cv).
+
+Updated: `r Sys.Date()`.
+
+# Main
+
+## hello {#title}
+
+## Experience {data-icon="suitcase" data-concise="true"}
+
+```{r}
+print_section(position_data, 'experience')
+```
+
+## Education {data-icon="graduation-cap" data-concise="true"}
+
+```{r}
+print_section(position_data, 'education')
+```
+
+## Honors & Awards {data-icon="trophy"}
+
+```{r}
+print_section(position_data, 'honors_awards')
+```
+
+## Research & Data Science Experience {data-icon="laptop"}
+
+::: {.aside}
+```{r}
+print_text_block(text_blocks, 'data_aside')
+```
+:::
+
+```{r}
+print_section(position_data, 'research_data')
+```
+
+<br> <br> <br> <br> <br> <br> <br>
+
+## Teaching and Project Management {data-icon="chalkboard-teacher"}
+
+::: {.aside}
+```{r}
+print_text_block(text_blocks, 'teaching_experience_aside')
+```
+:::
+
+```{r}
+print_section(position_data, 'teaching_positions')
+```
+
+## Web Design & Illustration {data-icon="pen-nib"}
+
+::: {.aside}
+```{r}
+print_text_block(text_blocks, 'design_aside')
+```
+:::
+
+```{r}
+print_section(position_data, 'design')
+```
+
+<!-- These breaks just force a new page so section doesnt get cut off -->
+
+<br> <br>
+
+## Talks {data-icon="microphone-alt"}
+
+```{r}
+print_section(position_data, 'talks')
+```
+
+## Publications {data-icon="book"}
+
+```{r}
+print_section(position_data, 'academic_articles')
+```
+
+```{r results = 'asis', eval=FALSE}
+library(rcrossref)
+library(tidyverse)
+my_dois <- c("10.1016/j.neuroimage.2017.12.044",
+             "10.1186/s11689-015-9111-z")
+vec <- paste('-', 
+             cr_cn(dois = my_dois, 
+                    format = "text", 
+                    style = "apa"), 
+             collapse = '\n')
+cat(vec)
+```
+
+```{r eval=FALSE}
+library(rcrossref)
+library(stringr)
+get_pub_year <- function(doi) {
+  cr_works(dois = doi) %>% 
+    purrr::pluck("data") %>% 
+    select(year = published.print) %>% 
+    mutate(year = str_extract(year, pattern = "^[0-9]{4}"))
+}
+
+my_dois <- c("10.1186/s11689-015-9111-z",
+             "10.1016/j.neuroimage.2017.12.044")
+get_pub_year(my_dois)
+```
+
+
+## Poster Presentations {data-icon="book"}
+
+```{r}
+print_section(position_data, 'posters')
+```
+
+```{r}
+if(PDF_EXPORT){
+  cat("
+  
+Links {data-icon=link}
+--------------------------------------------------------------------------------
+
+<br>
+
+
+")
+  
+  walk2(links, 1:length(links), function(link, index){
+    print(glue('{index}. {link}'))
+  })
+}
+```

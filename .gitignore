@@ -1,0 +1,10 @@
+.Rproj.user/
+*Rproj
+.Rhistory
+resume_files/
+.secrets
+.DS_Store
+README.html
+.Rproj.user
+.Rdata
+.httr-oauth
